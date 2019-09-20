@@ -1,0 +1,136 @@
+<html>
+	<head>
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td>
+					Type de document <select id="doctype">
+					</select><br/>
+					Référence <input id="docref" type="text" size="25" /><br/>
+					
+					<button onclick="onClickClasser()">Classer</button>
+				</td>
+				<td>
+					Classeur Logement<br/>
+					<ul id="logement">
+					</ul><br/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				</td>
+				<td>
+					Classeur Personne<br/>
+					<ul id="personne">
+					</ul><br/>
+				</td>
+			</tr>
+		</table>
+	</body>
+	<script>
+	
+var typesDocument = [
+	{
+	"id" : "AI",
+	"libelle" : "Avis d'imposition",
+	"cible" : "P"
+	},
+	{
+	"id" : "QL",
+	"libelle" : "Quittance logement",
+	"cible" : "L"
+	},
+	{
+	"id" : "FE",
+	"libelle" : "Facture d'électricité",
+	"cible" : "L"
+	},
+	{
+	"id" : "BS",
+	"libelle" : "Bulletin scolaire",
+	"cible" : "P"
+	}
+];
+
+function onClickClasser() {
+	let docTypeCtl = document.getElementById("doctype");
+	let docType = docTypeCtl.options[docTypeCtl.selectedIndex].value;
+	let docRef = document.getElementById("docref").value.trim();
+	rangerDocument(docType, docRef);
+}
+
+function addDocTypeToSelector(id, libelle) {
+	let newOption = document.createElement("option");
+	newOption.value = id;
+	newOption.innerHTML = libelle;
+	
+	let docTypeCtl = document.getElementById("doctype");
+	docTypeCtl.appendChild(newOption);
+}
+
+// TODO =========================================================================
+
+function initDocTypeSelector() {
+	for(let typeDoc of typesDocument) {
+	 //console.log(typeDoc);
+	 
+	 addDocTypeToSelector(typeDoc.id, typeDoc.libelle );
+	}
+
+	// Pour chaque type de document, appeler:
+	// addDocTypeToSelector(id du type de document, libellé du type de document);
+	
+}
+
+function rangerDocument(docTypeId, docRef) {
+	let idClasseur = 'logement';
+	
+	if (getTypeCible(docTypeId) === 'P') {
+		idClasseur = 'personne';
+	}
+	
+	let classeurCtl = document.getElementById(idClasseur);
+	
+	//afficher la reference
+		let docElt = document.createElement("li");
+		//docElt.innerHTML = docType;   Type
+		//docElt.innerHTML = docType; Ref
+	
+	//rechercher intituler complet du libelle separer de : plus la référence
+		let libelleElt =  null;
+		
+		//selectionne le tableau dans lequel nous avons nos informations
+		for(let typeDoc of typesDocument) {
+			if( typeDoc.id == docTypeId){
+				//recupere l'id de notre elemement du tableau pour rechercher le libeller
+				libelleElt = typeDoc.libelle;
+				break;
+			}
+		}
+		
+		docElt.innerHTML = libelleElt + " : " + docRef;
+		classeurCtl.appendChild(docElt);
+	//classeurCtl.value = classeurCtl.value.trim() + docType + "\r\n";
+	// - déterminer le classeur où ranger le document
+	// - y ajouter le document
+	 
+}
+
+function getTypeCible(idTypeDoc) {
+	//console.log(typeDoc);
+	for (let defTypeDoc of typesDocument) {
+		let cible = defTypeDoc.cible;
+		
+		if( defTypeDoc.id === idTypeDoc ){
+			return cible;
+		}
+	}
+
+}
+
+
+initDocTypeSelector();
+	</script>
+</html>

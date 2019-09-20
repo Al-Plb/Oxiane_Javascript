@@ -1,0 +1,149 @@
+<html>
+<head>
+	<meta charset="utf-8"/>
+</head>
+<body>
+	<h1>Newsletter</h1>
+	<p>A l'attention de <span id="name">Nom du client</span></p>
+	<p>Nous serons bientôt présents pour une journée d'information à <span id="address_city">Ville du client</span>. Si vous souhaitez nous rencontrer, merci de contacter le secrétariat</p>
+</body>
+
+<script>
+
+function exercice2(json) {
+	let destinataire = json[0];
+	let donnees = applatir(destinataire, "", {} );
+	// Pour chaque propriétés de donnees 
+	// - regarder s'il existe un <span> dont l'id est le nom de la propriété
+	// - si oui, affecter la valeur de la propriété de donnees à la propriété innerHtml du <span>
+	//boucle sur les propriétés de données 
+	
+	<!-- for (let propName in donnees){ -->
+		<!-- let span = document.getElementById(propName); -->
+		<!-- //console.log(propName); -->
+		<!-- // non nul non undefined -->
+		<!-- if(span) { -->
+			<!-- span.innerHTML = donnees[propName]; -->
+		<!-- }	 -->
+	<!-- } -->
+	
+	
+	<!-- let spanName = document.getElementById("name"); -->
+	<!-- spanName.innerHTML = donnees.name; -->
+	
+	<!-- let spanAddress = document.getElementById("address_city"); -->
+	<!-- spanAddress.innerHTML = donnees.address_city; -->
+	
+	<!--   -->
+}
+
+
+
+
+function exercice1(json) {
+	//console.log(typeof json);
+	 // + boucle sur tous les éléments de json en affichant leur propriété name
+	 
+	 for (let v in json) {
+		//console.log(json[v].name);
+		
+		let i = json[v].name.indexOf(" ");
+		let prenom = json[v].name.substring(0, i);
+		let nom = json[v].name.substring(i+1);
+		//console.log(prenom + nom);
+		
+		nom = nom.toUpperCase();
+		//console.log(nom);
+		
+		let email = json[v].email;
+		//console.log(email);
+		
+		
+		let city = json[v].address.city;
+		//console.log(city);
+		
+		console.log(prenom + "," + nom + "," + email + "," + city );
+	 }
+}
+
+function applatir(obj, prefixe, objResultat) {
+	for(let propName in obj) {
+		let propValue = obj[propName];
+		if (typeof propValue === "object") {
+			applatir(propValue, prefixe + propName + "_", objResultat);
+		} else {
+			objResultat[prefixe + propName] = propValue;
+		}
+	}
+	
+	return objResultat;
+}
+
+function exercice(json) {
+	<!-- Pour chaque éléments du tableau json  -->
+		<!-- - applatir éléments => retourne un object -->
+		<!-- transformer le nouvel object en chaine avec une virgule pres chaque valeur -->
+		<!-- - afficher éléments applatit avec des virgules comme séparateur -->
+		
+		<!-- - pour chaque propriété de l'éléments -->
+			<!-- - si  -->
+				<!-- la valeur de la propiété est un object  -->
+					<!-- traiter l'object de la meme facon  -->
+					
+							<!-- applatir (objTraité, objResultat) -->
+								<!-- pour chaque propriété de objTraité -->
+									<!-- est-elle de type "object" ? -->
+										<!-- oui ? aapplatir (valuer propriété, objresultat) -->
+										<!-- non ? ajouter propiétéà objResultat -->
+			
+			<!-- - sinon  -->
+				<!-- affiche valeur propiété -->		
+	
+	for( let item of json) {
+		let itemPlat = applatir(item, "", {});
+		console.log(itemPlat);
+	}
+}
+
+
+
+
+function typicode() {
+	fetch("https://jsonplaceholder.typicode.com/users/")
+	.then(response => response.json())
+	.then (json => exercice2(json));
+}
+
+/*
+function test1() {
+	let a = 5;
+	var b = 10;
+	
+	console.log(a + b)
+	
+	{
+	let b = 15;
+	console.log(a + b);
+	}
+	
+	console.log(a + b)
+}
+
+test1();
+*/
+
+
+/*
+Pour chaque éléments du tableau json, 
+	- récupérer la valeur de la propriété name 
+	- séparer le prenom et le nom dans 2 variables distinctes
+	- mettre le nom en majuscule
+	- afficher prénom & nom séparer par une virgule 
+*/
+
+typicode();
+
+
+</script>
+
+</html>

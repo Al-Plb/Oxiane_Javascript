@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+		Rechercher <input id="searchString" type="text" size="50" />
+		<button onclick="onClickSearch()">Go!</button><br />
+		Résultats:<br/>
+		<ul id="results">
+		</ul>
+	</body>
+	<script>
+
+var documentTypes = [
+	{ id: "AIIR", libelle: "Avis d'imposition Impôt sur le revenu", cible: "P" },
+	{ id: "BSAL", libelle: "Bulletin de salaire", cible: "P" },
+	{ id: "QTLY", libelle: "Quittance de loyer", cible: "L" },
+	{ id: "FAEL", libelle: "Facture d'électricité", cible: "L" },
+	{ id: "AITH", libelle: "Avis d'imposition Taxe d'habitation", cible: "L" },
+	{ id: "CRES", libelle: "Certificat de résidence", cible: "P" },
+	{ id: "FAEA", libelle: "Facture d'eau", cible: "L" },
+	{ id: "FAGZ", libelle: "Facture de gaz", cible: "L" },
+	{ id: "CASS", libelle: "Certificat d'assurance", cible: "V" },
+	{ id: "CTRA", libelle: "Certificat de travail", cible: "P" },
+];
+
+function onClickSearch() {
+	// TODO : afficher dans l'élément "result" la liste des types de documents
+	// dont le libelle contient searchString
+	let searchString = document.getElementById("searchString").value.trim().toLowerCase();
+	let ulElement = document.getElementById("results");
+	ulElement.innerHTML = "";
+	
+	for(let documentType of documentTypes) {
+	 //console.log(docType);
+		if(documentType.libelle.toLowerCase().indexOf(searchString) >= 0 ){
+			let liElement = document.createElement("li");
+			liElement.innerHTML = documentType.libelle;
+			ulElement.appendChild(liElement);
+		}
+		
+	}
+	
+	/// recherche par mots clé correspondant à notre liste d'objet
+}
+//transformation du tableau d'origine 
+
+<!-- documentTypes.map(dt => "<option>" + dt.libelle + "</option>") -->
+<!-- .forEach(item => console.log(item)); -->
+
+
+
+//fonction de même type que le map pour afficher tous nos items contenant "de"
+<!-- documentTypes.filter(dt => dt.libelle.indexOf("de") >= 0) -->
+<!-- .forEach(item => console.log(item.libelle)); -->
+
+
+
+	</script>
+</html>
